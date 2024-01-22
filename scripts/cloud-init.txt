@@ -1,0 +1,22 @@
+#cloud-config
+runcmd:
+    - sudo mkdir -p /config/auth/wireguard/default/
+    - sudo echo "QCujh5k7BmwhMy4eCUjYVO7cIckBg3blX9U1zopcJ3g=" > /config/auth/wireguard/default/private.key
+    - sudo echo "BWpgNw16SeqviaXgpZp0wUxcBvjHD3wrK4X7GblSlH4=" > /config/auth/wireguard/default/public.key
+vyos_config_commands:
+    - set system host-name VyOS-01
+    - set system name-server 8.8.8.8
+    - set system name-server 8.8.4.4
+    - set service dns forwarding name-server 8.8.8.8
+    - set service dns forwarding listen-address 192.168.1.11
+    - set service dns forwarding allow-from 192.168.1.0/24
+    - set service dns forwarding no-serve-rfc1918
+    - set nat source rule 10 outbound-interface eth0
+    - set nat source rule 10 source address 192.168.1.0/24
+    - set nat source rule 10 translation address 'masquerade'
+    - set nat source rule 20 outbound-interface eth0
+    - set nat source rule 20 source address 192.168.2.0/24
+    - set nat source rule 20 translation address 'masquerade'
+    - set nat source rule 30 outbound-interface eth0
+    - set nat source rule 30 source address 192.168.3.0/24
+    - set nat source rule 30 translation address 'masquerade'
